@@ -1,5 +1,3 @@
-import type { QueryResult, QueryResultRow } from "pg";
-
 function* incrementGenerator() {
   let count = 1;
   while (true) {
@@ -60,3 +58,5 @@ type SqlFunction = (
   strings: TemplateStringsArray,
   ...values: Array<Primitive | Primitive[] | TableName>
 ) => { text: string; values: Primitive[] };
+
+export const table = (name: string) => new TableName(name);

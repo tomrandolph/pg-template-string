@@ -1,5 +1,5 @@
 import { describe, expect, test, it } from "@jest/globals";
-import { TableName, customSQL } from "./template";
+import { table, customSQL } from "./template";
 
 const VALID_CASES = [
   //commmon
@@ -34,20 +34,18 @@ const VALID_CASES = [
   ],
   // table name
   [
-    customSQL`SELECT * FROM ${new TableName("users")}`,
+    customSQL`SELECT * FROM ${table("users")}`,
     { text: 'SELECT * FROM "users"', values: [] },
   ],
   [
-    customSQL`SELECT * FROM ${new TableName(
-      "users where 1=1; --"
-    )} WHERE id = ${1}`,
+    customSQL`SELECT * FROM ${table("users where 1=1; --")} WHERE id = ${1}`,
     {
       text: 'SELECT * FROM "users where 1=1; --" WHERE id = $1',
       values: [1],
     },
   ],
   [
-    customSQL`SELECT * FROM ${new TableName('users"; --')}`,
+    customSQL`SELECT * FROM ${table('users"; --')}`,
     {
       text: 'SELECT * FROM "users""; --"',
       values: [],
@@ -62,10 +60,4 @@ describe("Templating", () => {
       expect(template).toEqual(expected);
     }
   );
-});
-
-describe("Error handling", () => {
-  test("should throw an error if the template is invalid", () => {
-    // expect(() => customSQL`SELECT * FROM ${new TableName("table")}`).toThrow();
-  });
 });
