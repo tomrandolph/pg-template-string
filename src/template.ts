@@ -18,7 +18,7 @@ export class TableName {
   get name(): string {
     // Allow for double quotes in table names while preventing SQL injection
     // Still best to only allow known table names e.g. by checking against a whitelist
-    return this.value.replace(/"/g, '""');
+    return `"${this.value.replace(/"/g, '""')}"`;
   }
 }
 

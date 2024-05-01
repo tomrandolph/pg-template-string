@@ -38,16 +38,18 @@ const VALID_CASES = [
     { text: 'SELECT * FROM "users"', values: [] },
   ],
   [
-    customSQL`SELECT * FROM ${new TableName("users")} WHERE id = ${1}`,
+    customSQL`SELECT * FROM ${new TableName(
+      "users where 1=1; --"
+    )} WHERE id = ${1}`,
     {
-      text: 'SELECT * FROM "users" WHERE id = $1',
+      text: 'SELECT * FROM "users where 1=1; --" WHERE id = $1',
       values: [1],
     },
   ],
   [
-    customSQL`SELECT * FROM ${new TableName('"OR 1 = 1;')}`,
+    customSQL`SELECT * FROM ${new TableName('users"; --')}`,
     {
-      text: 'SELECT * FROM "\\"OR 1 = 1;"',
+      text: 'SELECT * FROM "users""; --"',
       values: [],
     },
   ],
